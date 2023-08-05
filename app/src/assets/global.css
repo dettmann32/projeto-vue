@@ -3,6 +3,6 @@
 @tailwind utilities;
 
 h1{
-    @apply text-center text-4xl text-gray-900
+    @apply text-center text-6xl text-gray-900
 }
 

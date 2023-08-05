@@ -1,9 +1,9 @@
 <template>
-  <header>
+  <div>
     <NavBar :logo="logo_src" :alt="app_name"></NavBar>
     <router-view/>
     <FooTer></FooTer>
-  </header>
+  </div>
 </template>
 
 <script>
