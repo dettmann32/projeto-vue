@@ -4,7 +4,7 @@
         <p>componente de mensagem</p>
         <div>
             <div class="md:w-[50%] m-auto">
-                <form >
+                <form @submit="createBurger">
                     <div class="flex flex-col mb-[20px] ">
                         <label for="nome">Nome do cliente:</label>
                         <input type="text"  id="name" name="nome" v-model="nome" placeholder="Digite o seu nome" class="border border-gray-500">
@@ -25,22 +25,14 @@
                     </div>
                     <div class="flex flex-col mb-[20px]">
                         <label for="opcionais" class="text-6xl">Selecione os opcionais:</label>
-                        <div class="flex flex-wrap">
-                            <div class="ml-5">
-                                <input type="checkbox" name="opicionais" v-model="opicionais" value="salame">
-                                <span>salame</span>
-                            </div>
-                            <div class="ml-5">
-                                <input type="checkbox" name="opicionais" v-model="opicionais" value="salame">
-                                <span>salame</span>
-                            </div>
-                            <div class="ml-5">
-                                <input type="checkbox" name="opicionais" v-model="opicionais" value="salame">
-                                <span>salame</span>
+                        <div class="flex justify-center p-10">
+                            <div class="ml-5" v-for="opcao in opcionais" :key="opcao.id" >
+                                <input type="checkbox" name="opicionais" v-model="opcionais" :value="opcao.tipo">
+                                <span>{{ opcao.tipo }}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="text-center bg-gray-600 rounded-sm hover:bg-gray-500 ">
+                    <div class="text-center bg-gray-900 rounded-sm hover:bg-gray-700 ">
                         <input type="submit" value="Criar meu Burger!" class="text-[#fcba03]">
                     </div>
                 </form>
@@ -56,18 +48,40 @@ export default {
         
 
         return {
-           data:[],
-           url: "http://swapi.dev/api/people"
+            paes: null,
+            carnes:null,
+            opcionais:null,
+            data:[],
         }
+    },
+
+    methods:{
+        async getIngredients(){
+
+            const req = await fetch("http://localhost:3000/ingredientes")
+            const data = await req.json()
+
+            this.opcionais = data.opcionais
+            this.carnes = data.carnes
+            this.paes = data.paes
+        },
+        async createBurger(e){
+            e.preventDefault()
+            const data = {
+                pao: this.paes,
+                carne: this.carnes,
+                opcional: Array.from( this.opcionais),
+                status: "Solicitado"
+            }
+
+            console.log(data)
+        }
+
+
     },
    
       mounted(){
-         fetch('url')
-        .then( res => res.json())
-        .then(dado => {
-            console.log(dado)
-            this.data = dado
-        })
+        this.getIngredients()
         
       }
         
