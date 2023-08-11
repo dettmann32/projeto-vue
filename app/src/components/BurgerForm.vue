@@ -56,34 +56,23 @@ export default {
         
 
         return {
-            paes:null,
-            carnes:null,
-            opicionaisdata:null,
-            nome:null,
-            pao:null,
-            carne:null,
-            opicionais:[],
-            status:"Solicitado",
-            msg:null
+           data:[],
+           url: "http://swapi.dev/api/people"
         }
     },
-    methods:{
-        async getIngredientes(){
-            const req = await fetch('http://localhost:3000/ingredientes')
-            const data = await req.json()
-
-            this.paes = data.paes
-            this.carnes = data.carnes
-            this.opicionaisdata = data.opcionais
-            console.log(data)
-        },
+   
       mounted(){
-        this.getIngredientes()
+         fetch('url')
+        .then( res => res.json())
+        .then(dado => {
+            console.log(dado)
+            this.data = dado
+        })
         
       }
         
     }
-}
+
 </script>
 
 <style  scoped>
